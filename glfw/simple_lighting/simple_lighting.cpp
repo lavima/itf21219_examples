@@ -89,7 +89,7 @@ GLfloat lightProperties[] {
     // Ambient Color
     0.0f, 0.0f, 0.2f, 0.0f,
     // Diffuse Color
-    0.5f, 0.5f, 0.5f, 0.0f,
+    0.8f, 0.5f, 0.5f, 0.0f,
     // Specular Color
     0.6f, 0.6f, 0.6f, 0.0f
 };
@@ -98,7 +98,7 @@ GLfloat materialProperties[] = {
     // Shininess color
     1.0f, 1.0f, 1.0f, 1.0f,
     // Shininess
-    32.0f
+    16.0f
 };
 
 // Camera properties 
