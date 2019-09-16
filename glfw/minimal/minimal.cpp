@@ -84,11 +84,15 @@ void glDebugCallback(GLenum sources, GLenum type, GLuint id, GLenum severity, GL
     printf("DEBUG: %s\n", msg);
 }
 
+class Test {
+  int a,b;
+};
+
 /*
  * Initialize OpenGL
  */
 int initGL() {
-
+   
     // Register the debug callback function
     glDebugMessageCallback(glDebugCallback, NULL);
 
@@ -209,20 +213,13 @@ void drawGLScene() {
     glClear(GL_COLOR_BUFFER_BIT);
 
     // Change the view matrix
-    GLfloat view[16] = {
-        1, 0, 0, 0,
-        0, 1, 0, 0,
-        0, 0, 1, 0,
-        0, 0, 0, 1 };
-    memcpy(viewMatrixPtr, view, 16 * sizeof(GLfloat));
+    glm::mat4 view= glm::translate(glm::mat4(1), glm::vec3(0,0,-5.0f));
+    memcpy(viewMatrixPtr, &view[0][0], 16 * sizeof(GLfloat));
 
     // Change the model matrix
-    GLfloat scale[16] = {
-        0.5, 0, 0, 0,
-        0, 0.5, 0, 0,
-        0, 0, 0.5, 0,
-        0, 0, 0, 1 };
-    memcpy(modelMatrixPtr, scale, 16 * sizeof(GLfloat));
+    // rotate
+    glm::mat4 scale= glm::scale(glm::mat4(1), glm::vec3(0.5f,0.5f,0.5f));
+    memcpy(modelMatrixPtr, &scale[0][0], 16 * sizeof(GLfloat));
 
     // Activate the program
     glUseProgram(programName);
@@ -250,12 +247,20 @@ void resizeGL(int width, int height) {
         height = 1;										
   
     // Change the projection matrix
-    GLfloat projection[16] = {
-        1, 0, 0, 0,
-        0, 1, 0, 0,
-        0, 0, 1, 0,
-        0, 0, 0, 1 };
-    glm::mat4 proj= glm::ortho(-1, 1, -1, 1, -1, 1);
+    
+    // Create matrix manually (a simple version of the matrix in this case)
+    //GLfloat projection[16] = {
+    //    1, 0, 0, 0,
+    //    0, 1, 0, 0,
+    //    0, 0, 1, 0,
+    //    0, 0, 0, 1 };
+    //memcpy(projectionMatrixPtr, projection, 16 * sizeof(GLfloat));
+
+    // Use GLM to create an orthogonal matrix
+    //glm::mat4 proj= glm::ortho(-1, 1, -1, 1, -1, 1);
+
+    // Use GLM to create a perspective correct matrix
+    glm::mat4 proj= glm::perspectiveFov(90.0f,(float)width,(float)height,0.1f,100.0f);
     memcpy(projectionMatrixPtr, &proj[0][0], 16 * sizeof(GLfloat));
 
     // Set the OpenGL viewport
