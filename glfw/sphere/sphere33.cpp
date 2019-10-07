@@ -14,6 +14,10 @@
 #define DEFAULT_WIDTH 1024
 #define DEFAULT_HEIGHT 768
 
+// Vertex Buffer identifiers
+#define VERTICES 0
+#define INDICES 1
+
 // Vertex Array attributes
 #define POSITION 0
 #define NORMAL 1
@@ -49,7 +53,7 @@ GLint cameraPositionPos;
 
 // Names
 GLuint programName;
-GLuint vertexBufferName;
+GLuint vertexBufferNames[2];
 GLuint vertexArrayName;
 GLuint textureName;
 
@@ -286,9 +290,9 @@ int createSphere(float radius, int numH, int numV) {
 
 
     // Create a vertex buffer for the vertex and index data
-    glGenBuffers(1, &vertexBufferName);
+    glGenBuffers(2, &vertexBufferNames);
 
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferName); // 2.0
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferNames[VERTICES]); // 2.0
     glBufferData(GL_ARRAY_BUFFER, numVertices * numPer * sizeof(GLfloat), &vertexData[0], GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0); // 2.0
 
@@ -297,7 +301,7 @@ int createSphere(float radius, int numH, int numV) {
     glBindVertexArray(vertexArrayName);
 
     // Associate vertex attributes with the binding point (POSITION NORMAL UV) and specify the format
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferName);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferNames[VERTICES]);
     glVertexAttribPointer(POSITION, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GL_FLOAT), 0); // 3.0
     glVertexAttribPointer(NORMAL, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GL_FLOAT), (void *)(3 * sizeof(GL_FLOAT))); // 3.0
     glVertexAttribPointer(UV, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GL_FLOAT), (void *)(6 * sizeof(GL_FLOAT))); // 3.0
@@ -349,7 +353,7 @@ void drawGLScene() {
     glBindTexture(GL_TEXTURE_2D, textureName);
 
     // Draw the vertex array
-    glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_SHORT, indexData);
+    glDrawElements(GL_TRIANGLES, umIndices, GL_UNSIGNED_SHORT, indexData);
 
     // Disable vertex array and texture
     glBindVertexArray(0);
