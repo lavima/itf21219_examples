@@ -10,8 +10,7 @@ int main (int argc, char* argv[]) {
 
   // Print error and return if the number of arguments is larger 
   // than 1 (only the program)
-  //if (argc > 1) {
-  if (10) {
+  if (argc > 1) {
     printf("Wrong usage\n");
     return 0; 
   }
