@@ -11,6 +11,7 @@
 
 // Vertex Buffer Identifiers
 #define VERTICES 0
+#define INDICES 1
 
 // Vertex Array attributes
 #define POSITION 0
@@ -98,7 +99,7 @@ GLint cameraPositionPos;
 // Names
 GLuint programName;
 GLuint vertexArrayName;
-GLuint vertexBufferNames[1];
+GLuint vertexBufferNames[2];
 
 /*
  * Read shader source file from disk
@@ -145,6 +146,11 @@ int initGL() {
     glBindBuffer(GL_ARRAY_BUFFER, vertexBufferNames[VERTICES]); // 2.0
     glBufferData(GL_ARRAY_BUFFER, 6 * 4* 9 * sizeof(GLfloat), vertices, GL_STATIC_DRAW); // 2.0
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    // Allocate storage for the indices 
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vertexBufferNames[INDICES]);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 3 * 2 * 6 * sizeof(GLushort), indices, GL_STATIC_DRAW); // 2.0
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     // Create and initialize a vertex array object
     glGenVertexArrays(1, &vertexArrayName); // 3.0
@@ -272,12 +278,16 @@ void drawGLScene() {
     // Activate the vertex array
     glBindVertexArray(vertexArrayName); // 3.0
 
+    // Activate the element indices 
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vertexBufferNames[INDICES]);
+
     // Draw the vertex array
-    glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_SHORT, indices);
+    glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_SHORT, 0);
 
     // Disable
     glUseProgram(0);
     glBindVertexArray(0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 }
 

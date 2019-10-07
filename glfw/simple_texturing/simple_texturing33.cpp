@@ -14,6 +14,7 @@
 
 // Vertex Buffer Identifiers
 #define VERTICES 0
+#define INDICES 1
 
 // Vertex Array attributes
 #define POSITION 0
@@ -59,7 +60,7 @@ GLfloat vertices[] = {
 };
 
 // Indices
-GLshort indices[] {
+GLushort indices[] {
     // Front
     0, 1, 2, 2, 3, 0,
     // Back
@@ -82,7 +83,7 @@ GLint modelMatrixPos;
 // Names
 GLuint programName;
 GLuint vertexArrayName;
-GLuint vertexBufferNames[1];
+GLuint vertexBufferNames[2];
 GLuint textureName;
 
 /*
@@ -127,16 +128,21 @@ int initGL() {
     glGenBuffers(2, vertexBufferNames); // 2.0
 
     // Allocate storage for the vertex array buffers
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferNames[POSITION]); // 2.0
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferNames[VERTICES]); // 2.0
     glBufferData(GL_ARRAY_BUFFER, 6 * 4 * 5 * sizeof(GLfloat), vertices, GL_STATIC_DRAW); // 2.0
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    // Allocate storage for the indices 
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vertexBufferNames[INDICES]);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 3 * 2 * 6 * sizeof(GLushort), indices, GL_STATIC_DRAW); // 2.0
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     // Create and initialize a vertex array object
     glGenVertexArrays(1, &vertexArrayName); // 3.0
     glBindVertexArray(vertexArrayName); // 3.0
 
     // Specify attribute format
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferNames[POSITION]);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferNames[VERTICES]);
     glVertexAttribPointer(POSITION, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GL_FLOAT), 0); // 3.0
     glVertexAttribPointer(UV, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GL_FLOAT), (void *)(3 * sizeof(GL_FLOAT))); // 3.0
 
@@ -264,13 +270,17 @@ void drawGLScene() {
     glBindVertexArray(vertexArrayName); // 3.0
     glBindTexture(GL_TEXTURE_2D, textureName);
 
+    // Activate the element indices 
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vertexBufferNames[INDICES]);
+
     // Draw the vertex array
-    glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_SHORT, indices);
+    glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_SHORT, 0);
 
     // Disable
     glUseProgram(0);
     glBindVertexArray(0);
     glBindTexture(GL_TEXTURE_2D, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 }
 
