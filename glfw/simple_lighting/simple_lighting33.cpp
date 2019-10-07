@@ -59,7 +59,7 @@ GLfloat vertices[] = {
     1.0f, -1.0f, 1.0f,  0.0f, 0.0f, 1.0f, 0.0f, -1.0f, 0.0f
 };
 
-GLushort indices[] {
+GLushort indices[] = {
     // Front
     0, 1, 2, 2, 3, 0,
     // Back
@@ -75,13 +75,13 @@ GLushort indices[] {
 };
 
 // Uniforms values
-GLfloat lightPosition[] { 0.0f, 0.0f, 4.0f };
-GLfloat lightAmbient[] { 0.1f, 0.1f, 0.2f };
-GLfloat lightDiffuse[] { 0.5f, 0.5f, 0.5f };
-GLfloat lightSpecular[] { 0.6f, 0.6f, 0.6f };
-GLfloat materialShininessColor[] { 1.0f, 1.0f, 1.0f,  1.0f };
+GLfloat lightPosition[] = { 0.0f, 0.0f, 4.0f };
+GLfloat lightAmbient[] = { 0.1f, 0.1f, 0.2f };
+GLfloat lightDiffuse[] = { 0.5f, 0.5f, 0.5f };
+GLfloat lightSpecular[] = { 0.6f, 0.6f, 0.6f };
+GLfloat materialShininessColor[] = { 1.0f, 1.0f, 1.0f,  1.0f };
 GLfloat materialShininess = 32.0f;
-GLfloat cameraPosition[] { 0.0f, 0.0f, 4.0f };
+GLfloat cameraPosition[] = { 0.0f, 0.0f, 4.0f };
 
 // Uniform locations
 GLint projectionMatrixPos;
